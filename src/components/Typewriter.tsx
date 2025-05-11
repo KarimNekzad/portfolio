@@ -9,9 +9,9 @@ export default function Typewriter() {
   useEffect(() => {
     const typed = new Typed(el.current, {
       strings: [
-        'Software <span class="font-bold text-blue-700">Engineer</span>',
-        'Software <span class="font-bold text-blue-700">Developer</span>',
-        'Software <span class="font-bold text-blue-700">Enthusiast</span>',
+        'Software <span class="font-bold text-orange-600">Engineer</span>',
+        'Software <span class="font-bold text-orange-600">Developer</span>',
+        'Software <span class="font-bold text-orange-600">Enthusiast</span>',
       ],
       typeSpeed: 50,
       backSpeed: 30,
