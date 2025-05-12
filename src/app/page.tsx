@@ -4,14 +4,46 @@ import Image from 'next/image';
 import { ArrowDownIcon } from '@heroicons/react/24/solid';
 import { EnvelopeIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import Typewriter from '@/components/Typewriter';
-
 import dynamic from 'next/dynamic';
+import { Document, Page, pdfjs } from 'react-pdf';
+import { useEffect, useRef, useState } from 'react';
+import 'react-pdf/dist/Page/TextLayer.css';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
 
 const GitHubCornersNoSSR = dynamic(() => import('@uiw/react-github-corners'), {
   ssr: false,
 });
 
 export default function Home() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState<number | null>(null);
+
+  // for pdf dynamic size rendering
+  useEffect(() => {
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        if (entry.contentRect) {
+          setWidth(entry.contentRect.width);
+        }
+      }
+    });
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, []);
+
+  pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    'pdfjs-dist/build/pdf.worker.min.mjs',
+    import.meta.url
+  ).toString();
+
   const currentYear = new Date().getFullYear();
   const workStartYear = 2021;
   const workExperienceYears = currentYear - workStartYear;
@@ -58,12 +90,13 @@ export default function Home() {
 
             <div className="flex flex-row justify-center items-center md:justify-start">
               {/* <Link href="/projects"> */}
-              <button
+              <a
+                href="#resume"
                 type="button"
                 className="flex flex-row items-center cursor-pointer gap-1 font-bold text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:ring-orange-300 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-600 focus:outline-none dark:focus:ring-orange-700"
               >
                 Explore my work <ArrowDownIcon className="w-4" />
-              </button>
+              </a>
               {/* </Link> */}
             </div>
           </div>
@@ -142,6 +175,12 @@ export default function Home() {
               </div>
             </div>
           </form>
+        </div>
+
+        <div id="resume" ref={containerRef} className="w-full">
+          <Document loading="Loading resume..." file="/pdfs/resume.pdf">
+            {width && <Page pageNumber={1} width={width} />}
+          </Document>
         </div>
       </div>
     </div>

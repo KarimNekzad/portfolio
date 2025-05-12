@@ -14,8 +14,11 @@
     "@uiw/github-corners": "^1.5.16",
     "@uiw/react-github-corners": "^1.5.16",
     "next": "15.3.1",
+    "next-transpile-modules": "^10.0.1",
+    "pdfjs-dist": "^4.8.69",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-pdf": "^9.2.1",
     "typed.js": "^2.1.0"
   },
   "devDependencies": {
