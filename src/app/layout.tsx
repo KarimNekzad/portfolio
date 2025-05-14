@@ -19,7 +19,7 @@ export const metadata: Metadata = {
       { rel: 'shortcut icon', url: '/favicons/favicon.ico' },
     ],
   },
-  manifest: '/favicons/site.webmanifest',
+  manifest: '/site.webmanifest',
   themeColor: 'oklch(0.646 0.222 41.116)',
   appleWebApp: {
     capable: true,
